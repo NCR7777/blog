@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="/public/admin/css/pintuer.css">
+<link rel="stylesheet" href="/public/admin/css/admin.css">
+<script src="/public/admin/js/jquery.js"></script>
+<script src="/public/admin/js/pintuer.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong><span class="icon-key"></span> 系统页面</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" enctype="multipart/form-data" action="">
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" id="mpass" name="system_title" placeholder="请输入网站标题" data-validate="required:请输入网站标题！" value="<%= data.title %>"/>
+        </div>
+      </div>      
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站关键字：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="system_keywords" placeholder="网站关键字" data-validate="required:请输入网站关键字！" value="<%= data.keywords %>"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站描述：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="system_description" placeholder="请输入网站描述" data-validate="required:请输入网站描述！" value="<%= data.description %>"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站logo：</label>
+        </div>
+        <div class="field">
+          <input type="file" class="input" name="system_logo"/>
+          <img src="<%= data.logo %>" alt="网站logo" width="150px">
+          <input type="hidden" name="old_system_logo" value="<%= data.logo %>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站版权信息：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="system_copyright" size="50" placeholder="请输入版权信息" data-validate="required:请输入版权信息！" value="<%= data.copyright %>"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站备案信息：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="system_record" placeholder="请输入备案信息" data-validate="required:请输入备案信息！" value="<%= data.record %>"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label for="sitename">网站统计代码：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" cols="30" rows="10" name="system_countCode" placeholder="请输入统计代码" data-validate="required:请输入统计代码！" style="resize:none;"><%= data.countCode %></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>   
+        </div>
+      </div>      
+    </form>
+  </div>
+</div>
+</body></html>

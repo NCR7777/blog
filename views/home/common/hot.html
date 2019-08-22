@@ -1,0 +1,14 @@
+<ul>
+    <% hotNewsData.forEach(item =>{ %>
+        <li>
+            <a href="/article?id=<%= item.news_id %>">
+                <span class="thumbnail"><img class="thumb" src="<%= item.news_img %>" alt=""></span>
+                <span class="text"><%= item.news_title %></span>
+                <span class="muted"><i
+                            class="glyphicon glyphicon-time"></i> <%= item.news_time %> </span>
+                <span class="muted"><i
+                            class="glyphicon glyphicon-eye-open"></i> <%= item.news_num %></span>
+            </a>
+        </li>
+    <% }) %>
+</ul>

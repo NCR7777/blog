@@ -1,0 +1,33 @@
+<div class="widget-sentence-content">
+    <h4 id="rightTime">2016年01月05日星期二</h4>
+    <p>Do not let what you cannot do interfere with what you can do.<br/>
+        别让你不能做的事妨碍到你能做的事。（John Wooden）</p>
+</div>
+<script>
+    function time() {
+        let date = new Date();
+        let year = date.getFullYear(); //获取当前年份
+        let mon = date.getMonth() + 1; //获取当前月份
+        let da = date.getDate(); //获取当前日
+        let day = date.getDay(); //获取当前星期几
+        let d = document.getElementById('rightTime');
+        let week = "一";
+        if (day === 1) {
+            week = "一";
+        } else if (day === 2) {
+            week = "二";
+        } else if (day === 3) {
+            week = "三";
+        } else if (day === 4) {
+            week = "四";
+        } else if (day === 5) {
+            week = "五";
+        } else if (day === 6) {
+            week = "六";
+        } else if (day === 7) {
+            week = "日";
+        }
+        d.innerText = year + "年" + mon + '月' + da + '日' + " " + '星期' + week;
+    }
+    time();
+</script>

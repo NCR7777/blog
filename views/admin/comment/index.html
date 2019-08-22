@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="/public/admin/css/pintuer.css">
+<link rel="stylesheet" href="/public/admin/css/admin.css">
+<script src="/public/admin/js/jquery.js"></script>
+<script src="/public/admin/js/pintuer.js"></script>
+</head>
+<body>
+	<div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 评论列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+		<ul class="search" style="padding-left:10px;">
+			<!-- <li> <a class="button border-main icon-plus-square-o" href="/admin/comment/add"> 添加评论</a> </li> -->
+			<li>搜索：</li>
+			<form action="" method="GET">
+				<li>
+					<input type="text" placeholder="请输入搜索关键字" name="search" class="input" style="width:250px; line-height:17px;display:inline-block" value="<%= search %>"/>
+					<button class="button border-main icon-search">搜索</button>
+				</li>
+			</form>
+		</ul>
+    </div>
+    <table class="table table-hover text-center">
+		<tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>新闻封面</th>
+        <th>新闻标题</th>
+        <th>评论内容</th>
+        <th>评论时间</th>
+        <th>评论状态</th>
+        <!-- <th width="310">操作</th> -->
+	</tr>
+	<% data.forEach(item => { %>
+        <tr>
+			<td><%= item.comment_id %></td>
+			<td><%= item.user_username %></td>
+			<td><img src="<%= item.news_img %>" width="150px" alt=""></td>
+			<td><%= item.news_title %></td>
+			<td><%= item.comment_text %></td>
+			<td><%= item.comment_time %></td>
+			<td>
+				<select class="input" onchange="status(this,<%= item.comment_id %>)">
+					<option <%= item.comment_status == 0 ? 'selected' : '' %> value="0">未审核</option>
+					<option <%= item.comment_status == 1 ? 'selected' : '' %> value="1">审核通过</option>
+					<option <%= item.comment_status == 2 ? 'selected' : '' %> value="2">审核失败</option>
+				</select>
+		</tr>
+	<% }) %>
+		<tr>
+			<td colspan="8">
+				<%- show %>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+<script>
+//ajax更改评论状态
+function status (obj,comment_id){
+	let comment_status = $(obj).val();
+	$.get("/admin/comment/ajax_status",{comment_id:comment_id,comment_status:comment_status},function(data){
+		if(data == 1){
+			alert("修改成功！")
+		}else{
+			alert("修改失败！")
+			location.reload();
+		}
+	});
+}
+</script>
+
+</html>

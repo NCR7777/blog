@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="/public/admin/css/pintuer.css">
+<link rel="stylesheet" href="/public/admin/css/admin.css">
+<script src="/public/admin/js/jquery.js"></script>
+<script src="/public/admin/js/pintuer.js"></script>
+</head>
+<body>
+	<div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 会员列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+		<ul class="search" style="padding-left:10px;">
+			<li> <a class="button border-main icon-plus-square-o" href="/admin/user/add"> 添加会员</a> </li>
+			<li>搜索：</li>
+			<form action="" method="GET">
+				<li>
+					<input type="text" placeholder="请输入搜索关键字" name="search" class="input" style="width:250px; line-height:17px;display:inline-block" value="<%= search %>"/>
+					<button class="button border-main icon-search">搜索</button>
+				</li>
+			</form>
+		</ul>
+    </div>
+    <table class="table table-hover text-center">
+		<tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>注册时间</th>
+        <th>状态</th>
+        <th width="310">操作</th>
+	</tr>
+	<% data.forEach(item => { %>
+        <tr>
+			<td><%= item.user_id %></td>
+			<td><%= item.user_username %></td>
+			<td><%= item.user_time %></td>
+			<td><% if(item.user_status == 0){ %>
+				<a onclick="status(this,<%= item.user_id %>,1);" class="button border-green" href="javascript:;">白名单</a> <% }else{ %> 
+				<a onclick="status(this,<%= item.user_id %>,0);" class="button border-red" href="javascript:;">黑名单</a><% } %></td>
+            <td>
+				<div class="button-group">
+					<a class="button border-main" href="/admin/user/edit?user_id=<%= item.user_id %>"><span class="icon-edit"></span>修改</a>
+					<a class="button border-red" href="javascript:;" onclick="del(this,<%= item.user_id %>)"><span class="icon-trash-o"></span>删除</a>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+		<tr>
+			<td colspan="8">
+				<%- show %>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+<script>
+//ajax更改管理员状态
+function status (obj,user_id,user_status){
+	$.get("/admin/user/ajax_status",{user_id:user_id,user_status:user_status},function(data){
+		if(data == 1){
+			if(user_status == 1){
+				$(obj).parent().html(`<a onclick="status(this,${user_id},0);" class="button border-red" href="javascript:;">黑名单</a>`)
+			}else{
+				$(obj).parent().html(`<a onclick="status(this,${user_id},1);" class="button border-green" href="javascript:;">白名单</a>`)
+			}
+		}
+	});
+}
+
+//ajax删除管理员
+function del (obj,user_id){
+	if(confirm("您确认要删除吗？")){
+		$.get("/admin/user/ajax_del",{user_id:user_id},function(data){
+		if(data == 1){
+				$(obj).parent().parent().parent().remove();
+		}else{
+			alert("删除失败！");
+		}
+	});
+	}
+}
+
+
+</script>
+
+</html>

@@ -1,0 +1,9 @@
+CREATE TABLE `comment` (
+  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `news_id` int(11) DEFAULT NULL,
+  `comment_text` varchar(255) DEFAULT NULL,
+  `comment_time` int(11) DEFAULT NULL,
+  `comment_status` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8

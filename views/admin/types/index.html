@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="/public/admin/css/pintuer.css">
+<link rel="stylesheet" href="/public/admin/css/admin.css">
+<script src="/public/admin/js/jquery.js"></script>
+<script src="/public/admin/js/pintuer.js"></script>
+</head>
+<body>
+	<div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder">新闻分类列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+		<ul class="search" style="padding-left:10px;">
+			<li> <a class="button border-main icon-plus-square-o" href="/admin/types/add"> 添加新闻分类</a> </li>
+			<li>搜索：</li>
+			<form action="" method="GET">
+				<li>
+					<input type="text" placeholder="请输入搜索关键字" name="search" class="input" style="width:250px; line-height:17px;display:inline-block" value="<%= search %>"/>
+					<button class="button border-main icon-search">搜索</button>
+				</li>
+			</form>
+		</ul>
+    </div>
+    <table class="table table-hover text-center">
+		<tr>
+        <th>ID</th>
+        <th>分类名称</th>
+        <th>分类关键字</th>
+        <th>分类描述</th>
+        <th>分类排序</th>
+        <th width="310">操作</th>
+	</tr>
+	<% data.forEach(item => { %>
+        <tr>
+			<td><%= item.types_id %></td>
+			<td><%= item.types_name %></td>
+			<td><%= item.types_keywords %></td>
+			<td><%= item.types_description %></td>
+			<td><input type="number" name="types_sort" id="types_sort" value="<%= item.types_sort %>" style="width:50px;text-align: center;" onchange="changeSort(this,<%= item.types_sort %>,<%= item.types_id %>)"></td>
+            <td>
+				<div class="button-group">
+					<a class="button border-main" href="/admin/types/edit?types_id=<%= item.types_id %>"><span class="icon-edit"></span>修改</a>
+					<a class="button border-red" href="javascript:;" onclick="del(this,<%= item.types_id %>)"><span class="icon-trash-o"></span>删除</a>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+		<!-- <tr>
+			<td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
+		</tr> -->
+	</table>
+</div>
+</body>
+<script>
+//ajax删除新闻分类
+function del (obj,types_id){
+	if(confirm("您确认要删除吗？")){
+		$.get("/admin/types/ajax_del",{types_id:types_id},function(data){
+		if(data == 1){
+			$(obj).parent().parent().parent().remove();
+		}else{
+			alert("删除失败！");
+		}
+	});
+	}
+}
+
+//ajax修改分类排序
+function changeSort(obj,types_sort,types_id){
+	$(obj).val();
+	$.get('/admin/types/ajax_changeSort',{types_sort:$(obj).val(),types_id:types_id},function(data){
+		if(data==1){
+			window.location.reload();
+		}else{
+			alert("修改失败！");
+		}
+	})
+}
+</script>
+
+</html>

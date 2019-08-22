@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="<%= newsData.news_keywords %>">
+    <meta name="description" content="<%= newsData.news_description %>">
+    <title><%= newsData.news_title %></title>
+    <link rel="stylesheet" type="text/css" href="/public/home/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/home/css/nprogress.css">
+    <link rel="stylesheet" type="text/css" href="/public/home/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/public/home/css/font-awesome.min.css">
+    <link rel="apple-touch-icon-precomposed" href="/public/home/images/icon/icon.png">
+    <link rel="shortcut icon" href="/public/home/images/icon/favicon.ico">
+    <script src="/public/home/js/jquery-2.1.4.min.js"></script>
+    <script src="/public/home/js/nprogress.js"></script>
+    <script src="/public/home/js/jquery.lazyload.min.js"></script>
+    <!--[if gte IE 9]>
+    <script src="/public/home/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/public/home/js/html5shiv.min.js" type="text/javascript"></script>
+    <script src="/public/home/js/respond.min.js" type="text/javascript"></script>
+    <script src="/public/home/js/selectivizr-min.js" type="text/javascript"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script>window.location.href = '/upgrade-browser';</script>
+    <![endif]-->
+</head>
+
+<body class="user-select single">
+<% include common/nav.html %>
+<section class="container">
+    <div class="content-wrap">
+        <div class="content">
+            <header class="article-header">
+                <h1 class="article-title"><%= newsData.news_title %></h1>
+                <div class="article-meta"> <span class="item article-meta-time">
+          <time class="time" data-toggle="tooltip" data-placement="bottom" title="时间：<%= newsData.news_time %>"><i
+                      class="glyphicon glyphicon-time"></i> <%= newsData.news_time %></time>
+          </span> <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom"
+                        title="作者：<%= newsData.news_author %>"><i
+                                class="glyphicon glyphicon-globe"></i> <%= newsData.news_author %></span> <span
+                            class="item article-meta-category" data-toggle="tooltip" data-placement="bottom"
+                            title="栏目：<%= newsData.tName %>"><i class="glyphicon glyphicon-list"></i> <a
+                                href="/list?id=<%= newsData.tId %>"
+                                title=""><%= newsData.tName %></a></span> <span
+                            class="item article-meta-views" data-toggle="tooltip" data-placement="bottom"
+                            title="查看：<%= newsData.news_num %>"><i
+                                class="glyphicon glyphicon-eye-open"></i> 共<%= newsData.news_num %>人围观</span> <span
+                            class="item article-meta-comment"
+                            data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="评论：0"><i
+                                class="glyphicon glyphicon-comment"></i> 0个不明物体</span></div>
+            </header>
+            <article class="article-content">
+                <p><img src="<%= newsData.news_img %>" alt=""/></p>
+                <%- newsData.news_text %>
+            </article>
+            <div class="article-tags">标签：<a href="" rel="tag"><%= newsData.news_keywords %></a></div>
+            <div class="relates">
+                <div class="title">
+                    <h3>相关推荐</h3>
+                </div>
+                <ul>
+                    <% hotNewsData.forEach(item =>{ %>
+                        <li>
+                            <a href="/article?id=<%= item.news_id %>">
+                                <span class="text"><%= item.news_title %></span>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="title" id="comment">
+                <h3>评论 <small>抢沙发</small></h3>
+            </div>
+            <!--<div id="respond">
+              <div class="comment-signarea">
+                <h3 class="text-muted">评论前必须登录！</h3>
+                <p> <a href="javascript:;" class="btn btn-primary login" rel="nofollow">立即登录</a> &nbsp; <a href="javascript:;" class="btn btn-default register" rel="nofollow">注册</a> </p>
+                <h3 class="text-muted">当前文章禁止评论</h3>
+              </div>
+            </div>-->
+            <div id="respond">
+                <form action="" method="post" id="comment-form">
+                    <div class="comment">
+                        <div class="comment-title">
+                            <img class="avatar" src="/public/home/images/icon/icon.png" alt=""/>
+                        </div>
+                        <div class="comment-box">
+                            <textarea placeholder="您的评论可以一针见血" name="comment_text" id="comment-textarea" cols="100%" rows="3"
+                                      tabindex="1" required></textarea>
+                            <div class="comment-ctrl">
+<!--                                <span class="emotion">-->
+<!--                                    <img src="/public/home/images/face/5.png" width="20" height="20" alt=""/>表情-->
+<!--                                </span>-->
+                                <div class="comment-prompt">
+                                    <i class="fa fa-spin fa-circle-o-notch"></i>
+                                    <span class="comment-prompt-text"></span>
+                                </div>
+                                <input type="hidden" name="news_id" value="<%= newsData.news_id %>">
+                                <button type="submit" name="comment-submit" id="comment-submit" tabindex="5" articleid="1">评论</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="postcomments">
+                <ol class="commentlist">
+                    <% var i = 1; %>
+                    <% commentData.forEach(item=>{ %>
+                        <li class="comment-content">
+                            <span class="comment-f">#<%= i %></span>
+                            <div class="comment-avatar">
+                                <img class="avatar" src="/public/home/images/icon/icon.png" alt=""/>
+                            </div>
+                            <div class="comment-main">
+                                <p><span class="address"><%= item.user_username %></span><span class="time">(<%= item.comment_time %>)</span><br/>
+                                    &nbsp;<%= item.comment_text %>
+                                </p>
+                            </div>
+                        </li>
+                        <% i++; %>
+                    <% }) %>
+                </ol>
+<!--                <div class="quotes"><span class="disabled">首页</span><span class="disabled">上一页</span><a class="current">1</a><a-->
+<!--                            href="">2</a><span class="disabled">下一页</span><span class="disabled">尾页</span>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+    <aside class="sidebar">
+        <div class="fixed">
+            <!--侧边栏-->
+            <% include common/aside.html %>
+        </div>
+        <div class="widget widget_sentence">
+            <h3>每日一句</h3>
+            <% include common/everyday.html %>
+        </div>
+        <div class="widget widget_hot">
+            <h3>热门文章</h3>
+            <% include common/listHot.html %>
+        </div>
+    </aside>
+</section>
+<% include common/footer.html %>
+<!--微信二维码模态框
+该功能正在日以继夜的开发中
+登录注册模态框-->
+<% include common/userDo.html %>
+<% include common/rightClickMenu.html %>
+<script src="/public/home/js/bootstrap.min.js"></script>
+<script src="/public/home/js/jquery.ias.js"></script>
+<script src="/public/home/js/scripts.js"></script>
+<script src="/public/home/js/jquery.qqFace.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.emotion').qqFace({
+            id: 'facebox',
+            assign: 'comment-textarea',
+            path: '/public/home/images/arclist/'	//表情存放的路径
+        });
+    });
+</script>
+</body>
+</html>
